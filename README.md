@@ -92,6 +92,6 @@ This project is licensed under the MIT License – free to use and modify.
 
 
 5: Deployment (Netlify / Vercel) :
-```base
- 
+```
+https://global-ielts-academy-homepage.vercel.app/ 
 ```
