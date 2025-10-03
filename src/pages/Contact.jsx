@@ -20,7 +20,7 @@ const Contact = () => {
    const handleSubmit = async(e)=>{
      e.preventDefault();
     try {
-        const response = await fetch("http://localhost:3000/api/form/contact",{
+        const response = await fetch("https://ielts-institute-backend-y7dt.onrender.com/api/form/contact",{
           method : "POST",
           headers :{
            "Content-Type" : "application/json"
