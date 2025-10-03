@@ -1,6 +1,50 @@
-import React from "react";
+import { useState } from "react";
 
+const defaultContactFormData = {
+  name: "",
+  email: "",
+  message: "",
+};
 const Contact = () => {
+  const [contact , setContact] = useState(defaultContactFormData)
+
+   const handleInput = (e) =>{
+     let {name , value} = e.target;
+
+     setContact({ 
+      ...contact,
+      [name] : value,
+     })
+   }
+
+   const handleSubmit = async(e)=>{
+     e.preventDefault();
+    try {
+        const response = await fetch("http://localhost:3000/api/form/contact",{
+          method : "POST",
+          headers :{
+           "Content-Type" : "application/json"
+          },
+          body : JSON.stringify(contact)
+         }
+
+        )
+        const data = await  response.json();
+        console.log(data);
+
+        if(response.ok){
+          alert('message send successfully')
+          setContact(defaultContactFormData);
+        }else {
+          alert("Failed to send message. Please try again.");
+        }
+
+    } catch (error) {
+      console.log(error)
+    }
+
+   }
+
   return (
     <section className="py-20 sm:py-28 bg-gray-50" id="contact">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -99,7 +143,7 @@ const Contact = () => {
             <h3 className="text-2xl font-semibold text-indigo-800 mb-6 text-center">
               Send Us a Message
             </h3>
-            <form action="#" method="POST" className="space-y-4 flex-grow flex flex-col">
+            <form onSubmit={handleSubmit} className="space-y-4 flex-grow flex flex-col">
               <div>
                 <label
                   htmlFor="name"
@@ -109,8 +153,9 @@ const Contact = () => {
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  name="name"
+                  name = "name"
+                  value = {contact.name}
+                  onChange={handleInput}
                   required
                   className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 p-3"
                 />
@@ -124,8 +169,9 @@ const Contact = () => {
                 </label>
                 <input
                   type="email"
-                  id="email"
                   name="email"
+                  value = {contact.email}
+                  onChange={handleInput}
                   required
                   className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 p-3"
                 />
@@ -138,9 +184,11 @@ const Contact = () => {
                   Your Inquiry
                 </label>
                 <textarea
-                  id="message"
+                  id = "message"
                   name="message"
                   rows="4"
+                  value = {contact.message}
+                  onChange={handleInput}
                   required
                   className="mt-1 block w-full h-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 p-3"
                 ></textarea>
